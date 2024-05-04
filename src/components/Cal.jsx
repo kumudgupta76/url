@@ -19,67 +19,57 @@ const month = [
 ]
 
 const Cal = () => {
-  const conicColors = {
-    '0%': '#87d068',
-    '50%': '#ffe58f',
-    '100%': '#ffccc7'
-  }
+  const [url, setUrl] = useState('');
+  const [encodedUrl, setEncodedUrl] = useState('');
+  const [decodedUrl, setDecodedUrl] = useState('');
 
-  const [value, setValue] = useState(() => 20)
+  const [selectedText, setSelectedText] = useState('');
+  
+  const handleTextareaSelect = (event) => {
+    const textarea = event.target;
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selected = textarea.value.substring(start, end);
+    setSelectedText(selected);
+  };
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      // Call your method here
-      myMethod()
-    }, 1000) // Interval of 1000 milliseconds (1 seconds)
+  const handleUrlChange = (event) => {
+    setUrl(event.target.value);
+  };
 
-    // Clear the interval when the component unmounts
-    return () => clearInterval(intervalId)
-  }, []) // Empty dependency array to run this effect only once when the component mounts
+  const handleEncode = () => {
+    const encoded = encodeURIComponent(url);
+    setEncodedUrl(encoded);
+  };
 
-  // Method to be called at the interval
-  const myMethod = () => {
-    console.log('Method called every 5 seconds')
-    // Add your method logic here
-
-    if ('getBattery' in navigator) {
-      navigator.getBattery().then(function (battery) {
-        // Update battery status initially
-        updateBatteryStatus(battery)
-
-        // Update battery status whenever it changes
-        battery.addEventListener('chargingchange', function () {
-          updateBatteryStatus(battery)
-        })
-
-        battery.addEventListener('levelchange', function () {
-          updateBatteryStatus(battery)
-        })
-      })
-
-      function updateBatteryStatus (battery) {
-        var percentage = Math.round(battery.level * 100)
-        setValue(percentage)
-        document.getElementById('battery-fill').style.width = percentage + '%'
-        document.getElementById('battery-percentage').innerText =
-          percentage + '%'
-      }
-    } else {
-      document.getElementById('battery-status').innerText =
-        'Battery Status API not supported'
-    }
-  }
+  const handleDecode = () => {
+    const decoded = decodeURIComponent(url);
+    setDecodedUrl(decoded);
+  };
 
   return (
-    <div className='outer-container'>
-      <div id='battery-status'></div>
-      {/* <div className="battery-container">
-            <div className="battery-level">
-                <div id="battery-fill" className="battery-fill" style={{width: "50%"}}></div>
-            </div>
-            <span id="battery-percentage">50%</span>
-  </div> */}
-      <Progress type='dashboard' percent={value} strokeColor={conicColors} />
+    <div>
+      <h1>URL Encoder and Decoder</h1>
+      <input type="text" value={url} onChange={handleUrlChange} placeholder="Enter URL" />
+      <br />
+      <button onClick={handleEncode}>Encode</button>
+      <button onClick={handleDecode}>Decode</button>
+      <br />
+      <label>Encoded URL:</label>
+      <textarea rows="4" cols="50" value={encodedUrl} readOnly />
+      <br />
+      <label>Decoded URL:</label>
+      <textarea rows="4" cols="50" value={decodedUrl} readOnly />
+
+
+      <h1>Selected Text in Textarea</h1>
+      <textarea
+        rows="4"
+        cols="50"
+        onSelect={handleTextareaSelect}
+        placeholder="Select text here..."
+      />
+      <p>Selected Text: {selectedText}</p>
     </div>
   )
 }
