@@ -51,6 +51,7 @@ const Cal = () => {
   return (
     <div style={{padding:"20px"}}>
       <h1>URL Encoder and Decoder</h1>
+      <label>Input URL:</label>
       <textarea
         rows="6"
         value={url}
@@ -60,13 +61,13 @@ const Cal = () => {
         className='textarea-local'
       />
       <br />
-      <button onClick={handleEncode}>Encode</button>
-      <button onClick={handleDecode}>Decode</button>
+      <button onClick={handleEncode} className='button-local'>Encode</button>
+      <button onClick={handleDecode} className='button-local'>Decode</button>
       <br />
       <label>Final URL:</label>
       <textarea rows="3" className='textarea-local' value={url.substring(0, selectedText.start) + selectedText.string + url.substring(selectedText.end)} readOnly />
   
-      <button onClick={() => setUrl(url.substring(0, selectedText.start) + selectedText.string + url.substring(selectedText.end))}>Update URL</button>
+      <button onClick={() => setUrl(url.substring(0, selectedText.start) + selectedText.string + url.substring(selectedText.end))} className='button-local'>Update URL</button>
       <br />
       <label>Encoded Part:</label>
       <textarea rows="3" className='textarea-local' value={encodedUrl} readOnly />

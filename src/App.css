@@ -43,4 +43,9 @@
 
 .textarea-local {
   width: 100%;
+  border-radius: 5px;
+}
+
+.button-local {
+  margin: 10px 10px 10px 0;
 }
